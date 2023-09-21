@@ -2,7 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+
+.h-400 {
+  height: 700px;
+}
+
+.img-width{
+  width: 50px;
+}
+
+img-crop{
+  border-radius: 100%;
+}
+
+
+.visiblity {
+    position: relative;
+    bottom: 32px;
+    left: 90%;
+}
+
+.login-input{
+  min-width: 300px;
+}
+
+.no-margin{
+  margin-top: -23px;
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,4 +52,4 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
