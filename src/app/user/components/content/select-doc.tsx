@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useCallback, useEffect, useContext } from "react";
+import React, { ChangeEvent, useContext } from "react";
 import { useState } from "react";
 import Card from "../doctors-card/card";
 import { FaLessThan } from "react-icons/fa";

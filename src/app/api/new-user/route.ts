@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import mongoose from "mongoose";
 import { user } from "@/components/schemas/user-mongoose-schema";
 
 const saltRounds = 10;

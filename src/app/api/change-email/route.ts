@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import mongoose from "mongoose";
 import { user } from "@/components/schemas/user-mongoose-schema";
 
-const saltRounds = 10;
 
-const db_password = process.env.DB_Password;
 
 export async function POST(request: Request) {
   if (request.method !== "POST") return;

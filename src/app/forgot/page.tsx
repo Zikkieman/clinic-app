@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { forgotSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";

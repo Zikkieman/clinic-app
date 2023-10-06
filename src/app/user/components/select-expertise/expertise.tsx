@@ -1,6 +1,4 @@
 import React, { useContext } from "react";
-import { useState } from "react";
-import { Doctors } from "../../../doctors";
 import Card from "../doctors-card/card";
 import Link from "next/link";
 import { DoctorContext } from "../../../../../context/doctor";

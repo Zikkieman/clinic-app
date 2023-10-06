@@ -2,11 +2,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { user } from "@/components/schemas/user-mongoose-schema";
-import { redirect } from "next/navigation";
 import { sign } from "jsonwebtoken";
 import { serialize } from "cookie";
-
-const saltRounds = 10;
 
 const db_password = process.env.DB_Password;
 const JWT_SECRET = process.env.JWT_SECRET || "";

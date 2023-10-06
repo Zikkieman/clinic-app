@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import Change from "../../change/page";
 import { useRouter } from "next/navigation";
 
 type UserInfoType = {

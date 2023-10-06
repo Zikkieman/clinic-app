@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { user } from "@/components/schemas/user-mongoose-schema";
-import { redirect } from "next/navigation";
 
 const saltRounds = 10;
 
@@ -52,7 +51,7 @@ export async function POST(request: Request) {
           }
         )
         .then(() => console.log("Successfully Password Replaced"));
-      redirect("/login");
+      
     } else {
       return NextResponse.json({ message: "Kindly Try Again" });
     }

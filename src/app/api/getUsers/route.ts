@@ -1,7 +1,8 @@
-const db_password = process.env.DB_Password;
 import mongoose from "mongoose";
 import { user } from "@/components/schemas/user-mongoose-schema";
 import { NextResponse } from "next/server";
+
+const db_password = process.env.DB_Password;
 
 export async function POST(request: Request) {
 

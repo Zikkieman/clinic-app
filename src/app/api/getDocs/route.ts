@@ -1,6 +1,7 @@
 import { Docs } from "@/components/schemas/doctors-schema";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+
 const db_password = process.env.DB_Password;
 
 export async function GET() {
