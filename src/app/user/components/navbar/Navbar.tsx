@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GrNotification } from "react-icons/Gr";
 import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
 
 export default function Navbar() {
   const [userProfile, setUserProfile] = useState({
