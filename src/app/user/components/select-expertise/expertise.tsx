@@ -19,8 +19,8 @@ export default function Expertise({ field }: PropsType) {
   return (
     <div>
       {filteredDoctor.map((doctor, index) => (
-        <Link href={doctor._id}>
-          <div key={index}>
+        <Link href={doctor._id} key={doctor._id}>
+          <div >
             <Card
               name={doctor.name}
               expertise={doctor.expertise}

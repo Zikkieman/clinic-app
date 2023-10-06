@@ -61,7 +61,7 @@ export default function Login() {
     <>
       <Link href="/sign-up">
         {" "}
-        <div className="flex justify-end mr-32 mt-20">
+        <div className="flex justify-end mr-32 mt-20 max-md:mr-10">
           <button className="border-2 py-2 px-2 border-green-900 rounded-2xl">
             Sign Up
           </button>

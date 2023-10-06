@@ -79,8 +79,8 @@ export default function Select() {
           {expertise === "Select Expertise" ? (
             <>
               {renderCards.map((doctor: DoctorArr, index: number) => (
-                <Link href={doctor._id}>
-                  <div key={index}>
+                <Link href={doctor._id} key={doctor._id}>
+                  <div >
                     <Card
                       name={doctor.name}
                       expertise={doctor.expertise}

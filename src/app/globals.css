@@ -53,6 +53,11 @@ background-color: grey;
   position: relative;
 }
 
+html, body {
+  overflow-x: hidden;
+  /* white-space: nowrap; Optional: Prevent line breaks */
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

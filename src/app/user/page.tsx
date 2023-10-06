@@ -5,7 +5,7 @@ import Select from "./components/content/select-doc";
 
 export default function User() {
   return (
-    <div className="mx-20 max-md:mx-2 ">
+    <div className="mx-20 max-md:mx-1 ">
       <Navbar />
       <Select />{" "}
     </div>
