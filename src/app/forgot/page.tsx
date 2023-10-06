@@ -2,29 +2,34 @@
 
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { loginSchema } from "../../components/schemas/yup-schema";
-import { UserContext } from "../../../context/user";
+import { forgotSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
 
 type Values = {
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
-export default function Login() {
+
+export default function Forgot() {
   const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
+ 
 
   const onSubmit = async (values: Values) => {
     const siginInfo = {
       email: values.email,
       password: values.password,
+      confirmPassword: values.confirmPassword,
     };
 
+    console.log(siginInfo)
+
     try {
-      const response = await fetch("/api/log-user", {
+      const response = await fetch("/api/forgot-password", {
         method: "POST",
         body: JSON.stringify(siginInfo),
         headers: {
@@ -33,10 +38,8 @@ export default function Login() {
       });
 
       const userData = await response.json();
-
-      localStorage.setItem("userData", JSON.stringify(userData));
-      // console.log(userData)
-      router.push("/user");
+      // res.setHeader('Location', targetUrl);
+      // router.push("/login");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -47,15 +50,16 @@ export default function Login() {
       initialValues: {
         email: "",
         password: "",
-        fullname: "",
+        confirmPassword: "",
       },
-      validationSchema: loginSchema,
+      validationSchema: forgotSchema,
       onSubmit,
     });
 
   const setVisibility = (): void => {
     setSeePassword(!seePassword);
   };
+
 
   return (
     <>
@@ -88,10 +92,7 @@ export default function Login() {
           )}
         </div>
         <div className="w-1/4 login-input">
-          <div className="flex justify-between">
-            <label>Password:</label>
-         <Link href="/forgot"><p className="text-gray-400">Forgot Password?</p></Link>   
-          </div>
+          <label>Password:</label>
 
           <input
             id="password"
@@ -114,11 +115,38 @@ export default function Login() {
             <p className="no-margin text-red-600">{errors.password}</p>
           )}
         </div>
+
+        <div className="w-1/4 login-input">
+          <label>Confirm Password:</label>
+
+          <input
+            id="confirmPassword"
+            value={values.confirmPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            type={seePassword ? "text" : "password"}
+            className={`block w-full border-2 mb-0 px-2 py-2 rounded-md ${
+              errors.confirmPassword &&
+              touched.confirmPassword &&
+              "border-red-600"
+            }`}
+          />
+          {
+            <AiOutlineEyeInvisible
+              className="text-2xl visiblity"
+              onClick={setVisibility}
+            />
+          }
+    
+          {errors.confirmPassword && touched.confirmPassword && (
+            <p className="no-margin text-red-600">{errors.confirmPassword}</p>
+          )}
+        </div>
         <button
           className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
         >
-          Sign Up
+          Change Password
         </button>
       </form>
     </>

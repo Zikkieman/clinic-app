@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { loginSchema } from "../../components/schemas/yup-schema";
-import { UserContext } from "../../../context/user";
+import { basicSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
 
 type Values = {
   email: string;
   password: string;
+  fullname: string;
 };
 
 export default function Login() {
@@ -18,28 +18,28 @@ export default function Login() {
   const [seePassword, setSeePassword] = useState<boolean>(false);
 
   const onSubmit = async (values: Values) => {
-    const siginInfo = {
+    const userProfile = {
       email: values.email,
       password: values.password,
+      fullname: values.fullname,
     };
 
-    try {
-      const response = await fetch("/api/log-user", {
-        method: "POST",
-        body: JSON.stringify(siginInfo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    console.log(userProfile)
 
+    const response = await fetch("/api/new-user", {
+      method: "POST",
+      body: JSON.stringify(userProfile),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { email } = userProfile;
+   
       const userData = await response.json();
+   
+    // function that fetches user email should be here
 
-      localStorage.setItem("userData", JSON.stringify(userData));
-      // console.log(userData)
-      router.push("/user");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    router.push("/login");
   };
 
   const { handleChange, handleBlur, touched, errors, values, handleSubmit } =
@@ -49,7 +49,7 @@ export default function Login() {
         password: "",
         fullname: "",
       },
-      validationSchema: loginSchema,
+      validationSchema: basicSchema,
       onSubmit,
     });
 
@@ -59,18 +59,34 @@ export default function Login() {
 
   return (
     <>
-      <Link href="/sign-up">
+    <Link href="/login">
         {" "}
         <div className="flex justify-end mr-32 mt-20">
           <button className="border-2 py-2 px-2 border-green-900 rounded-2xl">
-            Sign Up
+            Sign In
           </button>
         </div>
       </Link>
       <form
-        className="flex flex-col justify-center items-center h-400  w-full"
+        className="flex flex-col justify-center items-center h-400 w-full"
         onSubmit={handleSubmit}
       >
+        <div className="w-1/4 mb-6 login-input">
+          <label>Full Name:</label>
+          <input
+            id="fullname"
+            value={values.fullname}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            type="text"
+            className={`block border-2 w-full px-2 py-2 rounded-md ${
+              errors.fullname && touched.fullname && "border-red-600"
+            }`}
+          />
+          {errors.fullname && touched.fullname && (
+            <p className="mb-0 text-red-600">{errors.fullname}</p>
+          )}
+        </div>
         <div className="w-1/4 mb-6 login-input">
           <label>Email:</label>
           <input
@@ -88,11 +104,7 @@ export default function Login() {
           )}
         </div>
         <div className="w-1/4 login-input">
-          <div className="flex justify-between">
-            <label>Password:</label>
-         <Link href="/forgot"><p className="text-gray-400">Forgot Password?</p></Link>   
-          </div>
-
+          <label>Password:</label>
           <input
             id="password"
             value={values.password}

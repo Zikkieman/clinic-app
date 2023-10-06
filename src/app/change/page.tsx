@@ -1,32 +1,58 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import React from "react";
 import { useFormik } from "formik";
-import React, { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { loginSchema } from "../../components/schemas/yup-schema";
-import { UserContext } from "../../../context/user";
-import Link from "next/link";
+import { changeSchema } from "@/components/schemas/yup-schema";
+import {useRouter} from "next/navigation"
+
 
 type Values = {
-  email: string;
+  newEmail: string;
   password: string;
 };
 
-export default function Login() {
-  const router = useRouter();
+type UserInfoType = {
+  email: string;
+  fullname: string;
+};
+
+export default function Change() {
+  const router = useRouter()
   const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
+    email: "",
+    fullname: "",
+  });
+
+  const getUserEmail = () => {
+    const userEmail = localStorage.getItem("userData");
+    return userEmail ? JSON.parse(userEmail) : [];
+  };
+
+  useEffect(() => {
+    const patEmail = getUserEmail();
+    setUserInfo(patEmail);
+  }, []);
+
+const {email, fullname} = userInfo
+
+// console.log(email, fullname)
 
   const onSubmit = async (values: Values) => {
-    const siginInfo = {
-      email: values.email,
+    const forgotInfo = {
+      email: email,
+      newEmail: values.newEmail,
       password: values.password,
     };
 
+    console.log(forgotInfo);
+
     try {
-      const response = await fetch("/api/log-user", {
+      const response = await fetch("/api/change-email", {
         method: "POST",
-        body: JSON.stringify(siginInfo),
+        body: JSON.stringify(forgotInfo),
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,9 +60,10 @@ export default function Login() {
 
       const userData = await response.json();
 
-      localStorage.setItem("userData", JSON.stringify(userData));
-      // console.log(userData)
-      router.push("/user");
+      console.log(userData)
+
+
+        router.push("/login");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -45,54 +72,53 @@ export default function Login() {
   const { handleChange, handleBlur, touched, errors, values, handleSubmit } =
     useFormik({
       initialValues: {
-        email: "",
+        email: email,
+        newEmail: "",
         password: "",
-        fullname: "",
       },
-      validationSchema: loginSchema,
+      validationSchema: changeSchema,
       onSubmit,
     });
 
   const setVisibility = (): void => {
     setSeePassword(!seePassword);
   };
-
   return (
     <>
-      <Link href="/sign-up">
-        {" "}
-        <div className="flex justify-end mr-32 mt-20">
-          <button className="border-2 py-2 px-2 border-green-900 rounded-2xl">
-            Sign Up
-          </button>
-        </div>
-      </Link>
       <form
-        className="flex flex-col justify-center items-center h-400  w-full"
+        className="flex flex-col justify-center items-center h-400 w-full"
         onSubmit={handleSubmit}
       >
         <div className="w-1/4 mb-6 login-input">
-          <label>Email:</label>
+          <label>Old Email:</label>
           <input
-            id="email"
-            value={values.email}
+            id="oldEmail"
+            value={email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            type="text"
+            className={`block border-2 w-full px-2 py-2 rounded-md `}
+          />
+          
+        </div>
+        <div className="w-1/4 mb-6 login-input">
+          <label>New Email:</label>
+          <input
+            id="newEmail"
+            value={values.newEmail}
             onChange={handleChange}
             onBlur={handleBlur}
             type="text"
             className={`block border-2 w-full px-2 py-2 rounded-md ${
-              errors.email && touched.email && "border-red-600"
+              errors.newEmail && touched.newEmail && "border-red-600"
             }`}
           />
-          {errors.email && touched.email && (
-            <p className="mb-0 text-red-600">{errors.email}</p>
+          {errors.newEmail && touched.newEmail && (
+            <p className="mb-0 text-red-600">{errors.newEmail}</p>
           )}
         </div>
         <div className="w-1/4 login-input">
-          <div className="flex justify-between">
-            <label>Password:</label>
-         <Link href="/forgot"><p className="text-gray-400">Forgot Password?</p></Link>   
-          </div>
-
+          <label>Password:</label>
           <input
             id="password"
             value={values.password}
@@ -118,7 +144,7 @@ export default function Login() {
           className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
         >
-          Sign Up
+          Change Email
         </button>
       </form>
     </>

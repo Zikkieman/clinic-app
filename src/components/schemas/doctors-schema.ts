@@ -11,8 +11,8 @@ const doctorSchema = new Schema({
   period3: String,
 });
 
-const doctorsSchema = new Schema({
-  doctors: [doctorSchema],
-});
+// const doctorsSchema = new Schema({
+//   doctors: [doctorSchema],
+// });
 
-export const Docs = mongoose.model("Doctor", doctorsSchema);
+export const Docs = mongoose.models.Doctor || mongoose.model("Doctor", doctorSchema);

@@ -2,6 +2,8 @@ import { NextFont } from "@next/font";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import DoctorProvider from "../../context/doctor";
+import UserProvider from "../../context/user";
 
 const poppins: NextFont = Poppins({
   subsets: ["latin"],
@@ -20,7 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <UserProvider>
+          <DoctorProvider>{children}</DoctorProvider>{" "}
+        </UserProvider>{" "}
+      </body>
     </html>
   );
 }

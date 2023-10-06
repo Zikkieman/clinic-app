@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.doctors-card{
+  max-width: 450px
+  
+}
 .h-400 {
   height: 700px;
+}
+
+.select:focus{
+  border-color: rgb(3, 19, 3);
 }
 
 .img-width{
@@ -15,6 +22,10 @@ img-crop{
   border-radius: 100%;
 }
 
+.control-div{
+  position: relative;
+  left: 50%
+}
 
 .visiblity {
     position: relative;
@@ -28,6 +39,18 @@ img-crop{
 
 .no-margin{
   margin-top: -23px;
+}
+
+.my-checkbox:checked {
+  background-color: red !important;
+}
+
+.schedule:disabled {
+background-color: grey;
+}
+
+.forgot-password{
+  position: relative;
 }
 
 /* :root {

@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   const { email, password, fullname } = userData;
 
-  if (!email || !password || !email.includes("@") || password.length > 5) {
+  if (!email || !password || !email.includes("@") || password.length < 5) {
     return NextResponse.json(
       { message: "Invalid Input - fill all the fields" },
       {
@@ -25,9 +25,9 @@ export async function POST(request: Request) {
 
   try {
     bcrypt.hash(password, saltRounds, async function (err, hash) {
-      const client =
-        await mongoose.connect(`mongodb+srv://exxcelservicess:${db_password}@cluster0.qxcsr2b.mongodb.net/Clinic?retryWrites=true&w=majority
-    `);
+    //   const client =
+    //     await mongoose.connect(`mongodb+srv://exxcelservicess:${db_password}@cluster0.qxcsr2b.mongodb.net/Clinic?retryWrites=true&w=majority
+    // `);
 
       console.log("Connected to the database");
 
@@ -39,6 +39,8 @@ export async function POST(request: Request) {
       });
 
       await newUser.save();
+      // mongoose.connection.close()
+
 
       return NextResponse.json({
         post: newUser,
