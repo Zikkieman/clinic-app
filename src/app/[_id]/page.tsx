@@ -5,6 +5,8 @@ import Doctor from "./components/Doctor";
 import Link from "next/link";
 import mongoose from "mongoose";
 import { Docs } from "@/components/schemas/doctors-schema";
+import { v4 as uuidv4 } from 'uuid'
+
 
 const db_password = process.env.DB_Password;
 
@@ -42,8 +44,8 @@ export default async function Booking({ params: { _id } }: Params) {
           </div>
         </div>
         <div className="mt-32">
-          {docArr.map((doctor, index) => (
-            <div key={index}>
+          {docArr.map((doctor ) => (
+            <div key={uuidv4()}>
               <Doctor
                 name={doctor.name}
                 expertise={doctor.expertise}

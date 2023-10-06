@@ -4,6 +4,7 @@ import { Doctors } from "../../../doctors";
 import Card from "../doctors-card/card";
 import Link from "next/link";
 import { DoctorContext } from "../../../../../context/doctor";
+import { v4 as uuidv4 } from 'uuid'
 
 type PropsType = {
   field: String;
@@ -18,8 +19,8 @@ export default function Expertise({ field }: PropsType) {
 
   return (
     <div>
-      {filteredDoctor.map((doctor, index) => (
-        <Link href={doctor._id} key={doctor._id}>
+      {filteredDoctor.map((doctor) => (
+        <Link href={doctor._id} key={uuidv4()}>
           <div >
             <Card
               name={doctor.name}

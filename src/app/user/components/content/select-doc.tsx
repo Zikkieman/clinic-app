@@ -1,15 +1,13 @@
-"use client"
-
+"use client";
 import React, { ChangeEvent, useCallback, useEffect, useContext } from "react";
 import { useState } from "react";
 import Card from "../doctors-card/card";
 import { FaLessThan } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import Expertise from "../select-expertise/expertise";
-import { getDocs } from "../../../../../libs/getDocs/getDoc";
 import { DoctorContext } from "../../../../../context/doctor";
-import Booking from "@/app/[_id]/page";
 
 type DoctorProps = {
   doctors: [];
@@ -19,7 +17,7 @@ export default function Select() {
   const [currentPage, setCurrentPage] = useState(0);
   const [expertise, setExpertise] = useState("Select Expertise");
 
-  const {doctorArr} = useContext(DoctorContext)
+  const { doctorArr } = useContext(DoctorContext);
   const next = () => {
     if (currentPage === 2) {
       setCurrentPage(currentPage);
@@ -36,10 +34,7 @@ export default function Select() {
     }
   };
 
-  const renderCards = doctorArr.slice(
-    currentPage * 3,
-    (currentPage + 1) * 3
-  );
+  const renderCards = doctorArr.slice(currentPage * 3, (currentPage + 1) * 3);
 
   const submit = (event: ChangeEvent) => {
     event.preventDefault();
@@ -74,13 +69,13 @@ export default function Select() {
           <option value="Dentistry">Dentistry</option>
         </select>
         <Expertise field={expertise} />
-        
+
         <div>
           {expertise === "Select Expertise" ? (
             <>
-              {renderCards.map((doctor: DoctorArr, index: number) => (
-                <Link href={doctor._id} key={doctor._id}>
-                  <div >
+              {renderCards.map((doctor: DoctorArr) => (
+                <Link href={doctor._id} key={uuidv4()}>
+                  <div>
                     <Card
                       name={doctor.name}
                       expertise={doctor.expertise}
