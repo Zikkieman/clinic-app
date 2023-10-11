@@ -23,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <UserProvider>
-          <DoctorProvider>{children}</DoctorProvider>{" "}
-        </UserProvider>{" "}
+        <DoctorProvider>
+          <UserProvider>{children}</UserProvider>{" "}
+        </DoctorProvider>{" "}
       </body>
     </html>
   );

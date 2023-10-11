@@ -15,7 +15,6 @@ export default function Expertise({ field }: PropsType) {
     return doctor.expertise === field;
   });
 
-  console.log(filteredDoctor)
 
   return (
     <div>
