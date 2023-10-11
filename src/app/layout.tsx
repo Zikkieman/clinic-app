@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import DoctorProvider from "../../context/doctor";
 import UserProvider from "../../context/user";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const poppins: NextFont = Poppins({
   subsets: ["latin"],
@@ -26,6 +28,20 @@ export default function RootLayout({
         <DoctorProvider>
           <UserProvider>{children}</UserProvider>{" "}
         </DoctorProvider>{" "}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {/* Same as */}
+        <ToastContainer />
       </body>
     </html>
   );

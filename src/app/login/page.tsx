@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
+import {  toast } from "react-toastify";
+
 
 type Values = {
   email: string;
@@ -40,9 +42,11 @@ export default function Login() {
         message === "Incorrect Password" ||
         message === "Please, Try Again"
       ) {
+        toast(message, {position: "bottom-center", type: "error"})
         return router.push("/login");
       } else if (message === "Authenticated!") {
         localStorage.setItem("userData", JSON.stringify(userData.userResponse));
+        toast("Succesfully signed in", {position: "bottom-center", type: "success"})
         return router.push("/user");
       }
     } catch (error) {
