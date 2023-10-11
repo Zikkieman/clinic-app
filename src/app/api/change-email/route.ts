@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { user } from "@/components/schemas/user-mongoose-schema";
 
-
-
 export async function POST(request: Request) {
   if (request.method !== "POST") return;
 
@@ -33,30 +31,18 @@ export async function POST(request: Request) {
     const userLogon = bcrypt.compareSync(password, registeredUser.password);
     console.log("userLong", userLogon);
     if (userLogon) {
-      const changeEmail = await user
-        .findOneAndUpdate(
-          { email: email },
-          {
-            $set: {
-              email: newEmail,
-            },
-          }
-        )
-        // .then(() => console.log("Successfully Replaced"));
+      const changeEmail = await user.findOneAndUpdate(
+        { email: email },
+        {
+          $set: {
+            email: newEmail,
+          },
+        }
+      );
 
-      const getEmail = await user.findOne({ email: newEmail });
-      const newUserInfo = {
-        newUserEmail: getEmail.email,
-        newUserFullname: getEmail.fullname,
-      };
-
-    //   const getUserEmail = () => {
-    //     localStorage.setItem("userData", JSON.stringify(newUserInfo));
-    //     const userProfile = localStorage.getItem("userData");
-    //     return userProfile ? JSON.parse(userProfile) : [];
-    //   };
-    //   await getUserEmail();
-      return NextResponse.json(newUserInfo);
+      // const getEmail = await user.findOne({ email: newEmail });
+      
+      return NextResponse.json({ message: "Email Updated Successfully" });
     } else {
       return NextResponse.json({ message: "Incorrect Password" });
     }

@@ -13,11 +13,10 @@ type Values = {
   confirmPassword: string;
 };
 
-
 export default function Forgot() {
   const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
- 
+  const [seeConPassword, setConSeePassword] = useState<boolean>(false);
 
   const onSubmit = async (values: Values) => {
     const siginInfo = {
@@ -26,7 +25,7 @@ export default function Forgot() {
       confirmPassword: values.confirmPassword,
     };
 
-    console.log(siginInfo)
+    console.log(siginInfo);
 
     try {
       const response = await fetch("/api/forgot-password", {
@@ -38,8 +37,17 @@ export default function Forgot() {
       });
 
       const userData = await response.json();
-      // res.setHeader('Location', targetUrl);
-      // router.push("/login");
+      const { message } = userData;
+
+      if (
+        message === "Incorrect Email" ||
+        message === "Kindly Try Again" ||
+        message === "Please, Try Again"
+      ) {
+        return router.push("/forgot");
+      } else if (message === "Successfully Password Replaced") {
+        return router.push("/login");
+      }
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -60,6 +68,9 @@ export default function Forgot() {
     setSeePassword(!seePassword);
   };
 
+  const setConVisibility = (): void => {
+    setConSeePassword(!seeConPassword);
+  };
 
   return (
     <>
@@ -124,7 +135,7 @@ export default function Forgot() {
             value={values.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
-            type={seePassword ? "text" : "password"}
+            type={seeConPassword ? "text" : "password"}
             className={`block w-full border-2 mb-0 px-2 py-2 rounded-md ${
               errors.confirmPassword &&
               touched.confirmPassword &&
@@ -134,10 +145,10 @@ export default function Forgot() {
           {
             <AiOutlineEyeInvisible
               className="text-2xl visiblity"
-              onClick={setVisibility}
+              onClick={setConVisibility}
             />
           }
-    
+
           {errors.confirmPassword && touched.confirmPassword && (
             <p className="no-margin text-red-600">{errors.confirmPassword}</p>
           )}

@@ -41,6 +41,7 @@ export default function Select() {
     setExpertise((event.target as HTMLInputElement).value);
   };
 
+  console.log(expertise);
   return (
     <div className="flex justify-between mx-10 max-md:mx-2 my-2 max-lg:flex-col">
       <div className="text-green-950">

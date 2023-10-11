@@ -9,8 +9,6 @@ export async function POST(request: Request) {
 
   const userData = await request.json();
 
-  console.log(userData);
-
   const { email, password, confirmPassword } = userData;
 
   if (password !== confirmPassword) {
@@ -41,21 +39,19 @@ export async function POST(request: Request) {
     const newPassword = bcrypt.hashSync(password, saltRounds);
 
     if (newPassword) {
-      await user
-        .findOneAndUpdate(
-          { email: email },
-          {
-            $set: {
-              password: newPassword,
-            },
-          }
-        )
-        .then(() => console.log("Successfully Password Replaced"));
-      
+      await user.findOneAndUpdate(
+        { email: email },
+        {
+          $set: {
+            password: newPassword,
+          },
+        }
+      );
+
+      return NextResponse.json({ message: "Successfully Password Replaced" });
     } else {
       return NextResponse.json({ message: "Kindly Try Again" });
     }
-
   } catch (error) {
     return NextResponse.json({ message: "Please, Try Again" });
   }

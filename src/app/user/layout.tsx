@@ -23,7 +23,7 @@ export default function DashboardLayout({
       // if the error did not happen, if everything is alright
       // setIsSuccess(true);
     })();
-  }, [push]);
+  }, []);
 
   // if (!isSuccess) {
   //   return <p>Loading...</p>;

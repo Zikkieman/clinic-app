@@ -5,8 +5,7 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { changeSchema } from "@/components/schemas/yup-schema";
-import {useRouter} from "next/navigation"
-
+import { useRouter } from "next/navigation";
 
 type Values = {
   newEmail: string;
@@ -19,26 +18,26 @@ type UserInfoType = {
 };
 
 export default function Change() {
-  const router = useRouter()
+  const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     email: "",
     fullname: "",
   });
 
-  const getUserEmail = () => {
-    const userEmail = localStorage.getItem("userData");
-    return userEmail ? JSON.parse(userEmail) : [];
-  };
-
   useEffect(() => {
-    const patEmail = getUserEmail();
-    setUserInfo(patEmail);
+    if (typeof window !== "undefined" && window.localStorage) {
+      const getUserInfo = () => {
+        const userProfile = window.localStorage.getItem("userData");
+        return userProfile ? JSON.parse(userProfile) : [];
+      };
+      const userData = getUserInfo();
+      setUserInfo(userData);
+    }
   }, []);
 
-const {email, fullname} = userInfo
 
-// console.log(email, fullname)
+  const { email, fullname } = userInfo;
 
   const onSubmit = async (values: Values) => {
     const forgotInfo = {
@@ -46,8 +45,6 @@ const {email, fullname} = userInfo
       newEmail: values.newEmail,
       password: values.password,
     };
-
-    console.log(forgotInfo);
 
     try {
       const response = await fetch("/api/change-email", {
@@ -60,10 +57,23 @@ const {email, fullname} = userInfo
 
       const userData = await response.json();
 
-      console.log(userData)
+      const { message } = userData;
+
+      console.log(message);
 
 
-        router.push("/login");
+      if (
+        message === "Invalid Input - fill all the fields" ||
+        message === "Incorrect Email" ||
+        message === "Incorrect Password" ||
+        message === "Please, Try Again"
+      ) {
+        return router.push("/change");
+      } else if (message === "Email Updated Successfully") {
+        return router.push("/login");
+      }
+
+      router.push("/login");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -99,7 +109,6 @@ const {email, fullname} = userInfo
             type="text"
             className={`block border-2 w-full px-2 py-2 rounded-md `}
           />
-          
         </div>
         <div className="w-1/4 mb-6 login-input">
           <label>New Email:</label>

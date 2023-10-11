@@ -44,10 +44,6 @@ export default function Doctor(props: DoctorArr) {
 
   const { email, fullname } = userInfo;
 
-  {
-    /* <Change email={email} fullname={fullname} />; */
-  }
-  console.log(email);
 
   const handleResendEmail = async () => {
     const emailBody = {

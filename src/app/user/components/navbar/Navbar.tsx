@@ -1,14 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RxCross1 } from "react-icons/rx";
 
 export default function Navbar() {
   const [userProfile, setUserProfile] = useState({
-    userResponse: {
-      email: "",
-      fullname: "",
-    },
+    email: "",
+    fullname: "",
   });
+
+  const [icon, setIcon] = useState(false);
+
+  const handleIcon = () => {
+    setIcon(!icon);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -19,16 +25,10 @@ export default function Navbar() {
       const userData = getUserInfo();
       setUserProfile(userData);
     }
-  }, [userProfile]);
+  }, []);
   const router = useRouter();
 
-  const { userResponse } = userProfile;
-
-  // if (userResponse.message === "please try again" || !userResponse) {
-  //   router.push("/login");
-  // }
-
-  const { email, fullname } = userResponse;
+  const { email, fullname } = userProfile;
 
   const logout = async () => {
     try {
@@ -49,20 +49,42 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="flex flex-row justify-between mx-10 py-5 max-md:mx-2 text-green-950">
-        <div>
-          <h1 className="text-2xl max-md:text-xl">Schedule Appointment</h1>
-        </div>
-        <div className="flex mr-10 max-md:mr-2">
-          <div className="mr-10 max-sm:text-sm mt-3 max-sm:mr-5">
-            <p className="">{fullname}</p>
-            <p className="text-sm font-thin">{email}</p>
+      <nav>
+        <div className="flex flex-row justify-between mx-10 py-5 max-md:mx-2 text-green-950">
+          <div>
+            <h1 className="text-2xl max-md:text-xl">Schedule Appointment</h1>
           </div>
+          <div className="flex mr-10 max-md:mr-2 max-md:hidden">
+            <div className="mr-10 max-sm:text-sm mt-3 ">
+              <p className="">{fullname}</p>
+              <p className="text-sm font-thin">{email}</p>
+            </div>
 
-          <div className="pt-3 max-md:text-sm">
-            <button onClick={logout}>Log Out</button>
+            <div className="pt-3 max-md:text-sm">
+              <button onClick={logout}>Log Out</button>
+            </div>
+          </div>
+          <div
+            className="md:hidden text-2xl border px-1 py-1 rounded-md mr-5"
+            onClick={handleIcon}
+          >
+            {icon ? <RxCross1 /> : <GiHamburgerMenu />}
           </div>
         </div>
+        {icon && (
+          <div className="absolute w-full z-10 shadow-lg bg-white text-green-950 md:hidden">
+            <div className="flex flex-col items-end mr-10 h-56">
+              <div className="my-10">
+                <p className="mb-2 text-lg">{fullname}</p>
+                <p className="text-sm font-thin">{email}</p>
+              </div>
+
+              <div className="pb-5">
+                <button onClick={logout}>Log Out</button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
     </div>
   );

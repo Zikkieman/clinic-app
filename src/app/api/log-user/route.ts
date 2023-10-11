@@ -54,12 +54,12 @@ export async function POST(request: Request, res: Response) {
         path: "/",
       });
 
-      const response = {
-        message: "Authenticated!",
-      };
+      // const res = {
+      //   ,
+      // };
 
       return NextResponse.json(
-        { userResponse, response },
+        { userResponse,  "message": "Authenticated!"},
         { status: 200, headers: { "Set-Cookie": serialized } }
       );
       // redirect("/user");

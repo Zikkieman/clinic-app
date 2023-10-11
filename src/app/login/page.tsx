@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
@@ -32,10 +32,19 @@ export default function Login() {
       });
 
       const userData = await response.json();
+      const { message, userResponse } = userData;
 
-      localStorage.setItem("userData", JSON.stringify(userData));
-      // console.log(userData)
-      router.push("/user");
+      if (
+        message === "Incorrect Email" ||
+        message === "Invalid Input - fill all the fields" ||
+        message === "Incorrect Password" ||
+        message === "Please, Try Again"
+      ) {
+        return router.push("/login");
+      } else if (message === "Authenticated!") {
+        localStorage.setItem("userData", JSON.stringify(userData.userResponse));
+        return router.push("/user");
+      }
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -89,7 +98,9 @@ export default function Login() {
         <div className="w-1/4 login-input">
           <div className="flex justify-between">
             <label>Password:</label>
-         <Link href="/forgot"><p className="text-gray-400">Forgot Password?</p></Link>   
+            <Link href="/forgot">
+              <p className="text-gray-400">Forgot Password?</p>
+            </Link>
           </div>
 
           <input
