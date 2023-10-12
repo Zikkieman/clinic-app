@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { forgotSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
+import {toast} from "react-toastify"
 
 type Values = {
   email: string;
@@ -44,8 +45,10 @@ export default function Forgot() {
         message === "Kindly Try Again" ||
         message === "Please, Try Again"
       ) {
+        toast(message, {position: "bottom-center", type: "error"})
         return router.push("/forgot");
-      } else if (message === "Successfully Password Replaced") {
+      } else if (message === "Successfully Replaced Password") {
+        toast(message, {position: "bottom-center", type: "error"})
         return router.push("/login");
       }
     } catch (error) {

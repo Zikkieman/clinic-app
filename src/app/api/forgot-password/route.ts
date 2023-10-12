@@ -48,7 +48,7 @@ export async function POST(request: Request) {
         }
       );
 
-      return NextResponse.json({ message: "Successfully Password Replaced" });
+      return NextResponse.json({ message: "Successfully Replaced Password" });
     } else {
       return NextResponse.json({ message: "Kindly Try Again" });
     }
