@@ -1,4 +1,3 @@
-import { NextFont } from "next/font";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
@@ -7,7 +6,7 @@ import UserProvider from "../../context/user";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const poppins: NextFont = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 });
