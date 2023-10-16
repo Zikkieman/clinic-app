@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { changeSchema } from "@/components/schemas/yup-schema";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type Values = {
   newEmail: string;
@@ -36,7 +37,6 @@ export default function Change() {
     }
   }, []);
 
-
   const { email, fullname } = userInfo;
 
   const onSubmit = async (values: Values) => {
@@ -59,21 +59,19 @@ export default function Change() {
 
       const { message } = userData;
 
-      console.log(message);
-
-
       if (
         message === "Invalid Input - fill all the fields" ||
         message === "Incorrect Email" ||
         message === "Incorrect Password" ||
-        message === "Please, Try Again"
+        message === "Please, Try Again" ||
+        message === "Email Already In Use"
       ) {
+        toast(message, { position: "bottom-center", type: "error" });
         return router.push("/change");
       } else if (message === "Email Updated Successfully") {
+        toast(message, { position: "bottom-center", type: "success" });
         return router.push("/login");
       }
-
-      router.push("/login");
     } catch (error) {
       console.error("Error during login:", error);
     }

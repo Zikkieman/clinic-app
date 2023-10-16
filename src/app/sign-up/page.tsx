@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { basicSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 type Values = {
   email: string;
@@ -24,8 +25,6 @@ export default function Login() {
       fullname: values.fullname,
     };
 
-    console.log(userProfile)
-
     const response = await fetch("/api/new-user", {
       method: "POST",
       body: JSON.stringify(userProfile),
@@ -34,10 +33,23 @@ export default function Login() {
       },
     });
     const { email } = userProfile;
-   
-      const userData = await response.json();
-   
-    // function that fetches user email should be here
+
+    const { message } = await response.json();
+
+    if (
+      message === "Email Already In Use" ||
+      message === "Invalid Input - fill all the fields" ||
+      message === "Please, Try Again"
+    ) {
+      toast(message, { position: "bottom-center", type: "error" });
+      return router.push("/sign-up");
+    } else if (message === "Successfully Registered") {
+      toast(message, {
+        position: "bottom-center",
+        type: "success",
+      });
+      return router.push("/login");
+    }
 
     router.push("/login");
   };
@@ -59,7 +71,7 @@ export default function Login() {
 
   return (
     <>
-    <Link href="/login">
+      <Link href="/login">
         {" "}
         <div className="flex justify-end mr-32 mt-20">
           <button className="border-2 py-2 px-2 border-green-900 rounded-2xl">

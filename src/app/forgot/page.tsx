@@ -26,7 +26,6 @@ export default function Forgot() {
       confirmPassword: values.confirmPassword,
     };
 
-    console.log(siginInfo);
 
     try {
       const response = await fetch("/api/forgot-password", {
@@ -47,12 +46,12 @@ export default function Forgot() {
       ) {
         toast(message, {position: "bottom-center", type: "error"})
         return router.push("/forgot");
-      } else if (message === "Successfully Replaced Password") {
-        toast(message, {position: "bottom-center", type: "error"})
+      } else if (message === "Password Successfully Replaced") {
+        toast(message, {position: "bottom-center", type: "success"})
         return router.push("/login");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      toast("Please Try Again", {position: "bottom-center", type: "error"})
     }
   };
 

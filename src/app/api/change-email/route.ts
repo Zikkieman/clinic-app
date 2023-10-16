@@ -23,6 +23,10 @@ export async function POST(request: Request) {
     );
   }
 
+  if (email === newEmail) {
+    return NextResponse.json({ message: "Email Already In Use" });
+  }
+
   try {
     const registeredUser = await user.findOne({ email: email });
     if (!registeredUser) {
@@ -41,7 +45,7 @@ export async function POST(request: Request) {
       );
 
       // const getEmail = await user.findOne({ email: newEmail });
-      
+
       return NextResponse.json({ message: "Email Updated Successfully" });
     } else {
       return NextResponse.json({ message: "Incorrect Password" });

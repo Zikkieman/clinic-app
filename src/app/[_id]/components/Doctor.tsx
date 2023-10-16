@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type UserInfoType = {
   email: string;
@@ -44,7 +45,6 @@ export default function Doctor(props: DoctorArr) {
 
   const { email, fullname } = userInfo;
 
-
   const handleResendEmail = async () => {
     const emailBody = {
       email: email,
@@ -64,13 +64,18 @@ export default function Doctor(props: DoctorArr) {
 
       const sentEmail = await response.json();
 
-      console.log(sentEmail.message);
+      const { message } = sentEmail;
 
-      // if (response.ok) {
-      //   console.log("Email resent successfully");
-      // } else {
-      //   console.error("Failed to resend email");
-      // }
+      if (
+        message ===
+          "There is an error creating an appointment, Kindly login again" ||
+        message === "Kindly select a time"
+      ) {
+        toast(message, { position: "bottom-center", type: "error" });
+      } else if (message === "Appointment Confirmed") {
+        toast(message, { position: "bottom-center", type: "success" });
+        return router.push("/user");
+      }
     } catch (error) {
       console.error("Error:", error);
     }

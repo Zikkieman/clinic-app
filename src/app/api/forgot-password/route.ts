@@ -9,6 +9,8 @@ export async function POST(request: Request) {
 
   const userData = await request.json();
 
+  console.log(userData)
+
   const { email, password, confirmPassword } = userData;
 
   if (password !== confirmPassword) {
@@ -32,6 +34,7 @@ export async function POST(request: Request) {
 
   try {
     const registeredUser = await user.findOne({ email: email });
+    console.log(registeredUser)
     if (!registeredUser) {
       return NextResponse.json({ message: "Incorrect Email" });
     }
@@ -48,7 +51,7 @@ export async function POST(request: Request) {
         }
       );
 
-      return NextResponse.json({ message: "Successfully Replaced Password" });
+      return NextResponse.json({ message: "Password Successfully Replaced" });
     } else {
       return NextResponse.json({ message: "Kindly Try Again" });
     }
