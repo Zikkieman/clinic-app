@@ -1,24 +1,22 @@
 import React, { useContext } from "react";
 import Card from "../doctors-card/card";
 import Link from "next/link";
-import { DoctorContext } from "../../../../../context/doctor";
 import { v4 as uuidv4 } from 'uuid'
 
 type PropsType = {
   field: String;
 };
 
-export default function Expertise({ field }: PropsType) {
-  const { doctorArr } = useContext(DoctorContext);
+export default function Expertise({ field, docs }: PropsType & any) {
 
-  const filteredDoctor = doctorArr.filter((doctor) => {
+  const filteredDoctor = docs.filter((doctor: any) => {
     return doctor.expertise === field;
   });
 
 
   return (
     <div>
-      {filteredDoctor.map((doctor) => (
+      {filteredDoctor.map((doctor: any) => (
         <Link href={doctor._id} key={uuidv4()}>
           <div >
             <Card

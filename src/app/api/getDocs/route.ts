@@ -15,5 +15,4 @@ export async function GET() {
     return NextResponse.json(doctors)
   } catch (error) {
     return NextResponse.json(error);  }
-  return NextResponse.json({ res: "Done" });
 }

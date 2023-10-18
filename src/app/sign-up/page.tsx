@@ -32,7 +32,6 @@ export default function Login() {
         "Content-Type": "application/json",
       },
     });
-    const { email } = userProfile;
 
     const { message } = await response.json();
 

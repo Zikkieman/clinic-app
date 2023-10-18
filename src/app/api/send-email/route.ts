@@ -21,6 +21,7 @@ export async function POST(request: Request) {
  try {
     await resend.emails.send({
       from: "Healthy Clinic <onboarding@resend.dev>",
+      // to: [email],
       to: "horlarmeydeileh50@gmail.com",
       reply_to: "horlarmeydeileh50@gmail.com",
       subject: "Message from clinic app",

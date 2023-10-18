@@ -5,8 +5,7 @@ import Doctor from "./components/Doctor";
 import Link from "next/link";
 import mongoose from "mongoose";
 import { Docs } from "@/components/schemas/doctors-schema";
-import { v4 as uuidv4 } from 'uuid'
-
+import { v4 as uuidv4 } from "uuid";
 
 const db_password = process.env.DB_Password;
 
@@ -15,6 +14,27 @@ type Params = {
     _id: string;
   };
 };
+
+export async function generateMetadata({ params: { _id } }: Params) {
+  const id = _id;
+
+  await mongoose.connect(
+    `mongodb+srv://exxcelservicess:${db_password}@cluster0.qxcsr2b.mongodb.net/Clinic?retryWrites=true&w=majority`
+  );
+
+  const doctor = (await Docs.findOne({ _id: id })) as DoctorArr;
+
+  if (!doctor) {
+    return {
+      title: "Page not found",
+    };
+  }
+
+  return {
+    title: `Dr. ${doctor.name}`,
+    description: `Health is wealth`,
+  };
+}
 
 export default async function Booking({ params: { _id } }: Params) {
   await mongoose.connect(
@@ -44,7 +64,7 @@ export default async function Booking({ params: { _id } }: Params) {
           </div>
         </div>
         <div className="mt-32">
-          {docArr.map((doctor ) => (
+          {docArr.map((doctor) => (
             <div key={uuidv4()}>
               <Doctor
                 name={doctor.name}
@@ -64,4 +84,3 @@ export default async function Booking({ params: { _id } }: Params) {
     </div>
   );
 }
-

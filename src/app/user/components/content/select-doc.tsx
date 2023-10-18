@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useContext } from "react";
+import React, { ChangeEvent, useContext, useEffect } from "react";
 import { useState } from "react";
 import Card from "../doctors-card/card";
 import { FaLessThan } from "react-icons/fa";
@@ -7,17 +7,33 @@ import { FaGreaterThan } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import Expertise from "../select-expertise/expertise";
-import { DoctorContext } from "../../../../../context/doctor";
+// import { DoctorContext } from "../../../../../context/doctor";
 
 type DoctorProps = {
-  doctors: [];
+  doctors: [DoctorArr];
 };
 
 export default function Select() {
   const [currentPage, setCurrentPage] = useState(0);
   const [expertise, setExpertise] = useState("Select Expertise");
+  const [doctorsArr, setDoctorsArr] = useState([])as any;
 
-  const { doctorArr } = useContext(DoctorContext);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch("/api/getDocs");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const doctors = await response.json();
+        setDoctorsArr(doctors);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    })();
+  }, []);
+
+  console.log(doctorsArr);
   const next = () => {
     if (currentPage === 2) {
       setCurrentPage(currentPage);
@@ -34,7 +50,7 @@ export default function Select() {
     }
   };
 
-  const renderCards = doctorArr.slice(currentPage * 3, (currentPage + 1) * 3);
+  const renderCards = doctorsArr.slice(currentPage * 3, (currentPage + 1) * 3);
 
   const submit = (event: ChangeEvent) => {
     event.preventDefault();
@@ -68,10 +84,10 @@ export default function Select() {
           <option value="Neurology">Neurology</option>
           <option value="Dentistry">Dentistry</option>
         </select>
-        <Expertise field={expertise} />
+        <Expertise field={expertise} docs={doctorsArr} />
 
         <div>
-          {expertise === "Select Expertise" ? (
+          {expertise === "Select Expertise" && (
             <>
               {renderCards.map((doctor: DoctorArr) => (
                 <Link href={doctor._id} key={uuidv4()}>
@@ -91,8 +107,6 @@ export default function Select() {
                 </Link>
               ))}
             </>
-          ) : (
-            <></>
           )}
 
           <div className="control-div">
