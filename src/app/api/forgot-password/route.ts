@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { user } from "@/components/schemas/user-mongoose-schema";
+import mongoose from "mongoose";
+const db_password = process.env.DB_Password;
 
 const saltRounds = 10;
 
@@ -33,6 +35,9 @@ export async function POST(request: Request) {
   }
 
   try {
+    await mongoose.connect(
+      `mongodb+srv://exxcelservicess:${db_password}@cluster0.qxcsr2b.mongodb.net/Clinic?retryWrites=true&w=majority`
+    );
     const registeredUser = await user.findOne({ email: email });
     console.log(registeredUser)
     if (!registeredUser) {

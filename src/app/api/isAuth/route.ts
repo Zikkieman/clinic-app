@@ -7,8 +7,6 @@ export async function GET() {
 
   const token = cookieStore.get("clinicToken");
 
-  // console.log(token)
-
   if (!token) {
     return NextResponse.json(
       {
