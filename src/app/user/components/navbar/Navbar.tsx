@@ -65,7 +65,7 @@ export default function Navbar() {
             </div>
           </div>
           <div
-            className="md:hidden text-2xl border px-1 py-1 rounded-md mr-5"
+            className="md:hidden text-2xl border px-1 py-1 rounded-md mr-2"
             onClick={handleIcon}
           >
             {icon ? <RxCross1 /> : <GiHamburgerMenu />}
@@ -73,8 +73,8 @@ export default function Navbar() {
         </div>
         {icon && (
           <div className="absolute w-full z-10 shadow-lg bg-white text-green-950 md:hidden">
-            <div className="flex flex-col items-end mr-10 h-56">
-              <div className="my-10">
+            <div className="flex flex-col items-start ml-3 h-56">
+              <div className="my-8">
                 <p className="mb-2 text-lg">{fullname}</p>
                 <p className="text-sm font-thin">{email}</p>
               </div>

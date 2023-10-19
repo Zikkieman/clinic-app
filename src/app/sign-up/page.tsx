@@ -7,6 +7,7 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { basicSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import ButtonLoader from "@/components/loader/loading";
 
 type Values = {
   email: string;
@@ -17,6 +18,13 @@ type Values = {
 export default function Login() {
   const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const setLoadingHandler = () => {
+    if (Object.keys(errors).length === 0) {
+      setIsLoading(true);
+    }
+  };
 
   const onSubmit = async (values: Values) => {
     const userProfile = {
@@ -41,12 +49,14 @@ export default function Login() {
       message === "Please, Try Again"
     ) {
       toast(message, { position: "bottom-center", type: "error" });
+      setIsLoading(false);
       return router.push("/sign-up");
     } else if (message === "Successfully Registered") {
       toast(message, {
         position: "bottom-center",
         type: "success",
       });
+      setIsLoading(false);
       return router.push("/login");
     }
 
@@ -138,10 +148,11 @@ export default function Login() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
+          className="w-1/4 flex justify-center bg-blue-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
+          onClick={setLoadingHandler}
         >
-          Sign Up
+          {isLoading ? <ButtonLoader /> : "Sign Up"}
         </button>
       </form>
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({
@@ -23,7 +23,11 @@ export default function DashboardLayout({
     })();
   }, []);
 
-  return <main>{children}</main>;
+  return (
+    <main>
+      {children}
+    </main>
+  );
 }
 
 async function getUser() {

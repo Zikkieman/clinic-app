@@ -2,10 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 export default function Card(props: DoctorArr) {
-  const { name, image, period1, period2, period3, expertise, profile } =
-    props;
+  const { name, image, period1, period2, period3, expertise, profile } = props;
   return (
-    <div className="shadow-lg max-w-md text-green-900 rounded-sm py-2 px-2 mb-10">
+    <div className="shadow-sm border  max-w-md text-green-900 py-2 px-2 my-10 rounded-md">
       <div className="flex flex-row">
         <div className="img-crop">
           <Image

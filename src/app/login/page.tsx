@@ -6,8 +6,8 @@ import React, { useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
-import {  toast } from "react-toastify";
-
+import { toast } from "react-toastify";
+import ButtonLoader from "@/components/loader/loading";
 
 type Values = {
   email: string;
@@ -17,6 +17,8 @@ type Values = {
 export default function Login() {
   const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const onSubmit = async (values: Values) => {
     const siginInfo = {
@@ -42,14 +44,20 @@ export default function Login() {
         message === "Incorrect Password" ||
         message === "Please, Try Again"
       ) {
-        toast(message, {position: "bottom-center", type: "error"})
+        toast(message, { position: "bottom-center", type: "error" });
+        setIsLoading(false);
         return router.push("/login");
       } else if (message === "Authenticated!") {
         localStorage.setItem("userData", JSON.stringify(userData.userResponse));
-        toast("Succesfully signed in", {position: "bottom-center", type: "success"})
+        toast("Succesfully signed in", {
+          position: "bottom-center",
+          type: "success",
+        });
+        setIsLoading(false);
         return router.push("/user");
       }
     } catch (error) {
+      setIsLoading(false);
       console.error("Error during login:", error);
     }
   };
@@ -67,6 +75,12 @@ export default function Login() {
 
   const setVisibility = (): void => {
     setSeePassword(!seePassword);
+  };
+
+  const setLoadingHandler = () => {
+    if (Object.values(errors).length === 0) {
+      setIsLoading(true);
+    }
   };
 
   return (
@@ -129,10 +143,11 @@ export default function Login() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
+          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3 text-center flex justify-center"
           type="submit"
+          onClick={setLoadingHandler}
         >
-          Sign Up
+          {isLoading ? <ButtonLoader /> : "Sign In"}
         </button>
       </form>
     </>

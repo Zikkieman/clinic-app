@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useContext, useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useState } from "react";
 import Card from "../doctors-card/card";
 import { FaLessThan } from "react-icons/fa";
@@ -7,7 +7,6 @@ import { FaGreaterThan } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import Expertise from "../select-expertise/expertise";
-// import { DoctorContext } from "../../../../../context/doctor";
 
 type DoctorProps = {
   doctors: [DoctorArr];
@@ -16,7 +15,7 @@ type DoctorProps = {
 export default function Select() {
   const [currentPage, setCurrentPage] = useState(0);
   const [expertise, setExpertise] = useState("Select Expertise");
-  const [doctorsArr, setDoctorsArr] = useState([])as any;
+  const [doctorsArr, setDoctorsArr] = useState([]) as any;
 
   useEffect(() => {
     (async () => {

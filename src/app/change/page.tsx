@@ -7,6 +7,7 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { changeSchema } from "@/components/schemas/yup-schema";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import ButtonLoader from "@/components/loader/loading";
 
 type Values = {
   newEmail: string;
@@ -20,11 +21,18 @@ type UserInfoType = {
 
 export default function Change() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [seePassword, setSeePassword] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     email: "",
     fullname: "",
   });
+
+  const setLoadingHandler = () => {
+    if (Object.keys(errors).length === 0) {
+      setIsLoading(true);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -67,13 +75,16 @@ export default function Change() {
         message === "Email Already In Use"
       ) {
         toast(message, { position: "bottom-center", type: "error" });
+        setIsLoading(false);
         return router.push("/change");
       } else if (message === "Email Updated Successfully") {
         toast(message, { position: "bottom-center", type: "success" });
+        setIsLoading(false);
         return router.push("/login");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setIsLoading(false);
     }
   };
 
@@ -150,8 +161,9 @@ export default function Change() {
         <button
           className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
+          onClick={setLoadingHandler}
         >
-          Change Email
+          {isLoading ? <ButtonLoader /> : "Change Email"}
         </button>
       </form>
     </>

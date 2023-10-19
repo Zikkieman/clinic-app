@@ -83,7 +83,7 @@ export default function Doctor(props: DoctorArr) {
 
   return (
     <div>
-      <div className="shadow-lg doctors-card text-green-900 rounded-sm py-1 px-1 mb-10">
+      <div className="shadow-lg border rounded-md doctors-card text-green-900 py-1 px-1 mb-10">
         <div className="flex flex-row m-3">
           <div className="img-crop">
             <Image
@@ -107,12 +107,12 @@ export default function Doctor(props: DoctorArr) {
                 <td className="pr-10 pb-2">Duration:</td>
                 <td className="pb-2">30 minutes</td>
               </tr>
-              <tr>
+              <tr >
                 <td className="">Reminder:</td>
-                <td>
+                <td className="max-md:mt-2">
                   {email}{" "}
                   <Link href="/change">
-                    <span className="ml-4 text-md text-green-700">Change</span>
+                    <span className="ml-4 text-md text-green-700 max-md:text-sm">Change</span>
                   </Link>
                 </td>
               </tr>

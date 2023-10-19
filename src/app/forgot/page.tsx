@@ -7,6 +7,7 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { forgotSchema } from "../../components/schemas/yup-schema";
 import Link from "next/link";
 import {toast} from "react-toastify"
+import ButtonLoader from "@/components/loader/loading";
 
 type Values = {
   email: string;
@@ -18,6 +19,13 @@ export default function Forgot() {
   const router = useRouter();
   const [seePassword, setSeePassword] = useState<boolean>(false);
   const [seeConPassword, setConSeePassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const setLoadingHandler = () => {
+    if (Object.keys(errors).length === 0) {
+      setIsLoading(true);
+    }
+  };
 
   const onSubmit = async (values: Values) => {
     const siginInfo = {
@@ -45,12 +53,15 @@ export default function Forgot() {
         message === "Please, Try Again"
       ) {
         toast(message, {position: "bottom-center", type: "error"})
+        setIsLoading(false);
         return router.push("/forgot");
       } else if (message === "Password Successfully Replaced") {
         toast(message, {position: "bottom-center", type: "success"})
+        setIsLoading(false);
         return router.push("/login");
       }
     } catch (error) {
+      setIsLoading(false);
       toast("Please Try Again", {position: "bottom-center", type: "error"})
     }
   };
@@ -156,10 +167,11 @@ export default function Forgot() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
+          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3 flex justify-center"
           type="submit"
+          onClick={setLoadingHandler}
         >
-          Change Password
+          {isLoading ? <ButtonLoader /> : "Change Password"}
         </button>
       </form>
     </>
