@@ -63,7 +63,7 @@ export default async function Booking({ params: { _id } }: Params) {
             </p>
           </div>
         </div>
-        <div className="mt-32">
+        <div className="mt-32 max-md:mt-10">
           {docArr.map((doctor) => (
             <div key={uuidv4()}>
               <Doctor
