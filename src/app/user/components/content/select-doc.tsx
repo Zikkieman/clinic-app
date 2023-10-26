@@ -108,7 +108,7 @@ export default function Select() {
             </>
           )}
 
-          <div className="control-div">
+          <div className="text-center">
             <button onClick={previous} className="text-green-950 mr-5">
               <FaLessThan />
             </button>
