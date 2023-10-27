@@ -23,13 +23,13 @@ export default function Card(props: DoctorArr) {
       <p className="text-xs my-2">{profile}</p>
       <p>Next Available Slots</p>
       <div className="flex flex-row my-2">
-        <div className="rounded-3xl border py-2 px-1 mx-3 text-xs">
+        <div className="rounded-3xl border py-2 px-1 mx-3 text-xs flex-1">
           {period1}
         </div>
-        <div className="rounded-3xl border py-2 px-2 mx-3 text-xs">
+        <div className="rounded-3xl border py-2 px-2 mx-3 text-xs flex-1">
           {period2}
         </div>
-        <div className="rounded-3xl border py-2 px-2 mx-3 text-xs">
+        <div className="rounded-3xl border py-1 px-2 mx-3 text-xs flex-1">
           {period3}
         </div>
       </div>

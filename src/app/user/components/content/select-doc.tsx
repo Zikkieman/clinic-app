@@ -59,13 +59,13 @@ export default function Select() {
   return (
     <div className="flex justify-between mx-10 max-md:mx-2 my-2 max-lg:flex-col">
       <div className="text-green-950">
-        <Link href="/login">
+        {/* <Link href="/login">
           <div className="flex text-green-950 mb-10">
             <FaLessThan className="mr-4 mt-1" />
 
             <p>Go Back</p>
           </div>
-        </Link>
+        </Link> */}
         <div className="max-w-sm">
           <p className="text-2xl">Select your doctor and appointment time</p>
         </div>
