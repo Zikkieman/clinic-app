@@ -22,7 +22,13 @@ export default function Forgot() {
   const [isLoading, setIsLoading] = useState(false);
 
   const setLoadingHandler = () => {
-    if (Object.keys(errors).length === 0) {
+    if (
+      values.email.length !== 0 &&
+      values.password.length !== 0 &&
+      values.email.includes("@") &&
+      values.password.length >= 5 &&
+      values.confirmPassword.length >= 5
+    ) {
       setIsLoading(true);
     }
   };
@@ -167,7 +173,7 @@ export default function Forgot() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3 flex justify-center"
+          className="w-1/4 bg-green-700 text-white rounded-md py-2 login-input mt-3 flex justify-center"
           type="submit"
           onClick={setLoadingHandler}
         >

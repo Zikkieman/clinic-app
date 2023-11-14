@@ -29,7 +29,12 @@ export default function Change() {
   });
 
   const setLoadingHandler = () => {
-    if (Object.keys(errors).length === 0) {
+    if (
+      values.newEmail.length !== 0 &&
+      values.password.length !== 0 &&
+      values.newEmail.includes("@") &&
+      values.password.length >= 5
+    ) {
       setIsLoading(true);
     }
   };
@@ -159,7 +164,7 @@ export default function Change() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3"
+          className="w-1/4 bg-green-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
           onClick={setLoadingHandler}
         >

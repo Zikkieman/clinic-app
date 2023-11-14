@@ -7,6 +7,7 @@ import { FaGreaterThan } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import Expertise from "../select-expertise/expertise";
+import Loading from "../../loading";
 
 type DoctorProps = {
   doctors: [DoctorArr];
@@ -16,8 +17,11 @@ export default function Select() {
   const [currentPage, setCurrentPage] = useState(0);
   const [expertise, setExpertise] = useState("Select Expertise");
   const [doctorsArr, setDoctorsArr] = useState([]) as any;
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState() as any;
 
   useEffect(() => {
+    setIsFetching(true);
     (async () => {
       try {
         const response = await fetch("/api/getDocs");
@@ -26,13 +30,17 @@ export default function Select() {
         }
         const doctors = await response.json();
         setDoctorsArr(doctors);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      } catch (err) {
+        setError(err);
       }
+      setIsFetching(false);
     })();
   }, []);
 
-  console.log(doctorsArr);
+  if(isFetching){
+    return <Loading />
+  }
+  
   const next = () => {
     if (currentPage === 2) {
       setCurrentPage(currentPage);
@@ -59,13 +67,6 @@ export default function Select() {
   return (
     <div className="flex justify-between mx-10 max-md:mx-2 my-2 max-lg:flex-col">
       <div className="text-green-950">
-        {/* <Link href="/login">
-          <div className="flex text-green-950 mb-10">
-            <FaLessThan className="mr-4 mt-1" />
-
-            <p>Go Back</p>
-          </div>
-        </Link> */}
         <div className="max-w-sm">
           <p className="text-2xl">Select your doctor and appointment time</p>
         </div>

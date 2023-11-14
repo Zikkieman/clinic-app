@@ -19,7 +19,6 @@ export default function Login() {
   const [seePassword, setSeePassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const onSubmit = async (values: Values) => {
     const siginInfo = {
       email: values.email,
@@ -78,7 +77,12 @@ export default function Login() {
   };
 
   const setLoadingHandler = () => {
-    if (Object.values(errors).length === 0) {
+    if (
+      values.email.length !== 0 &&
+      values.password.length !== 0 &&
+      values.email.includes("@") &&
+      values.password.length >= 5
+    ) {
       setIsLoading(true);
     }
   };
@@ -143,7 +147,7 @@ export default function Login() {
           )}
         </div>
         <button
-          className="w-1/4 bg-blue-700 text-white rounded-md py-2 login-input mt-3 text-center flex justify-center"
+          className="w-1/4 bg-green-700 text-white rounded-md py-2 login-input mt-3 text-center flex justify-center"
           type="submit"
           onClick={setLoadingHandler}
         >

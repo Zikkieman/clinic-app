@@ -21,7 +21,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const setLoadingHandler = () => {
-    if (Object.keys(errors).length === 0) {
+    if (
+      values.email.length !== 0 &&
+      values.password.length !== 0 &&
+      values.email.includes("@") &&
+      values.password.length >= 5 &&
+      values.fullname.length !== 0
+    ) {
       setIsLoading(true);
     }
   };
@@ -148,7 +154,7 @@ export default function Login() {
           )}
         </div>
         <button
-          className="w-1/4 flex justify-center bg-blue-700 text-white rounded-md py-2 login-input mt-3"
+          className="w-1/4 flex justify-center bg-green-700 text-white rounded-md py-2 login-input mt-3"
           type="submit"
           onClick={setLoadingHandler}
         >
